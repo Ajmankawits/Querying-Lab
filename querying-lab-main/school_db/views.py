@@ -1,3 +1,6 @@
+from numbers import Number
+import numbers
+from unicodedata import name
 from django.shortcuts import render
 from django.db.models import Count
 from django.core.exceptions import ObjectDoesNotExist
@@ -58,11 +61,18 @@ SELECT `school_db_student`.`id`,
 # Order the data by highest GPAs first (descending).
 # Print out each student's full name and gpa to the terminal
 def problem_one(request):
+     
+    students = Student.objects.all().filter(gpa__gt=3).order_by('-gpa')
+    
+    for student in students:
+      
+        print(f'Full Name: {student.first_name} {student.last_name} GPA: {student.gpa}')
 
-
+    
 
     return complete(request)
 
+#students = Student.objects.filter(student.gpa==3)
 
 # Supporting Query Method Documentation:
 """
@@ -99,7 +109,12 @@ SELECT `school_db_student`.`id`,
 # Order by hire date ascending
 # Print out the instructor's full name and hire date to the terminal
 def problem_two(request):
-
+  
+    instructors = Instructor.objects.filter(hire_date__year__lt=2010)
+  
+    for instructor in instructors:
+      
+        print(f'Full Name: {instructor.first_name} {instructor.last_name} Hire Date: {instructor.hire_date}')
 
 
     return complete(request)
@@ -139,10 +154,16 @@ SELECT `school_db_instructor`.`id`,
 # Print the instructors name and courses that he belongs to in the terminal 
 # (Do not hard code his name in the print)
 def problem_three(request):
+  instructors = Instructor.objects.filter(id=2)
+  for instructor in instructors:
+      print(f'Instructor Name: {instructor.first_name} {instructor.last_name} Hire Date: {instructor.hire_date}')
 
+  pk2_courses = Course.objects.filter(instructor_id=2)
+  for course in pk2_courses:
+    print(f'Courses:{course.name}')
+  
 
-
-    return complete(request)
+  return complete(request)
 
 
 # Supporting Query Method Documentation:
@@ -187,10 +208,15 @@ SELECT `school_db_instructor`.`id`,
 
 # Get the count of students, courses, and instructors and print them in the terminal
 def problem_four(request):
+  students = Student.objects.count()
+  print(f'Students Count: {students}')
+  
+  courses = Course.objects.count()
+  print(f'Courses Count: {courses}')
 
-
-
-    return complete(request)
+  instructors = Instructor.objects.count()
+  print(f'Instructors Count: {instructors}')
+  return complete(request)
 
 
 # Supporting Query Method Documentation:
