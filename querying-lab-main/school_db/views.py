@@ -1,6 +1,3 @@
-from numbers import Number
-import numbers
-from unicodedata import name
 from django.shortcuts import render
 from django.db.models import Count
 from django.core.exceptions import ObjectDoesNotExist
@@ -259,10 +256,13 @@ SELECT COUNT(*) AS `__count`
 # Print the new student's id, full name, year, and gpa to the terminal
 # NOTE every time you execute this function a duplicate student will be created with a different primary key number
 def problem_five(request):
+  new_student = Student.objects.create(first_name='Kyle', last_name='Harwood', year=2022, gpa=3)
+  
+  print(f'Id: {new_student.id} Full Name: {new_student.first_name} {new_student.last_name} Year: {new_student.year} GPA: {new_student.gpa}')
 
 
 
-    return complete(request)
+  return complete(request)
 
 
 # Supporting Query Method Documentation:
@@ -295,8 +295,11 @@ VALUES ('Kyle', 'Harwood', 2022, 3.0)
 def problem_six(request):
     
     # Make sure to set this equal to the primary key of the row you just created!
-    student_id = 11
-
+    
+    Student.objects.filter(id=12).update(gpa=3.5)
+    new_student = Student.objects.all().filter(id=12)
+    print(f'Id: {new_student.id} Full Name: {new_student.first_name} {new_student.last_name} GPA: {new_student.gpa}')
+    
 
 
     return complete(request)
